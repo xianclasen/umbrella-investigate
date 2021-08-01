@@ -50,3 +50,23 @@ class Investigator():
         
         else:
             return r.text
+
+    def getCooccurances(self, domain):
+        '''
+        This API method returns a list of co-occurences for the specified domain. 
+        A co-occurrence is when two or more domains are accessed by the same users 
+        within a small window of time. Co-occurring domains are not necessarily a bad thing; 
+        legitimate sites co-occur with each other as a part of normal web activity. 
+        However, unusual or suspicious co-occurence can provide additional information 
+        regarding attacks. To determine co-occurrences for a domain, a small time window of 
+        traffic across all of our datacenters is taken. Then, we look at the sites that end 
+        users were visiting before and after the domain requested in the API call.
+        '''
+        endpoint = '/recommendations/name/'
+        r = requests.get(self.base_url + endpoint + str(domain) + '.json', headers=self.header)
+        if r.status_code == 200:
+            r_json = r.json()
+            return r_json
+        
+        else:
+            return r.text
