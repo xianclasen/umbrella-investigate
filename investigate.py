@@ -126,3 +126,95 @@ class Investigator():
         
         else:
             return r.text
+
+    def getRelatedDomains(self, domain):
+        '''
+        This API method returns a list of domain names that have been 
+        frequently requested around the same time (up to 60 seconds before or after) 
+        as the given domain name, but that are not frequently associated
+         with other domain names.
+        '''
+        endpoint = '/links/name/'
+        r = requests.get(self.base_url + endpoint + str(domain), headers=self.header)
+        if r.status_code == 200:
+            r_json = r.json()
+            return r_json
+        
+        else:
+            return r.text
+
+    def getSecurityInfo(self, domain):
+        '''
+        The security information API method contains multiple scores or security features, 
+        each of which can be used to determine relevant datapoints to build insight on the 
+        reputation or security risk posed by the site. No one security information feature 
+        is conclusive, instead these features should be looked at in conjunction with one 
+        another as part of your security research.
+        '''
+        endpoint = '/security/name/'
+        r = requests.get(self.base_url + endpoint + str(domain), headers=self.header)
+        if r.status_code == 200:
+            r_json = r.json()
+            return r_json
+        
+        else:
+            return r.text
+
+    def getRiskScore(self, domain):
+        '''
+        The Umbrella Investigate Risk Score is based on an analysis of the lexical 
+        characteristics of the domain name and patterns in queries and requests to 
+        the domain. It is scaled from 0 to 100, with 100 being the highest risk and 
+        0 being no risk at all. Periodically Umbrella updates this score based on 
+        additional inputs. A domain blocked by Umbrella receives a score of 100.
+        '''
+        endpoint = '/domains/risk-score/'
+        r = requests.get(self.base_url + endpoint + str(domain), headers=self.header)
+        if r.status_code == 200:
+            r_json = r.json()
+            return r_json
+        
+        else:
+            return r.text
+
+    def getAsInfoByIp(self, ip):
+        '''
+        This endpoint provides data about ASN & IP relationships, showing 
+        how IP addresses are related to each other and to the regional registries. 
+        You can also find out more about the IP space associated with an AS with 
+        this endpoint and correlate BGP routing information between AS. ASN for 
+        an IP Address It can be helpful when querying IP to find which AS 
+        (Autonomous System) an IP address is associated with. The AS is part of 
+        the BGP routing for that IP. To return the AS information for an IP, use 
+        the endpoint /bgp_routes/ip/. A valid result will return an array of hash 
+        references. The hash reference will contain information about the AS such 
+        as the ASN, the CIDR prefix of the AS, the Internet Registry (RIR) number 
+        (0 through 6), the Description of the AS and the creation date for the AS. 
+        An empty response will return an empty array reference: [ ]. The IR number 
+        corresponds to one of the five Regional Internet Registries (RIR).
+        '''
+        endpoint = '/bgp_routes/ip/'
+        r = requests.get(self.base_url + endpoint + str(ip) + '/as_for_ip.json', headers=self.header)
+        if r.status_code == 200:
+            r_json = r.json()
+            return r_json
+        
+        else:
+            return r.text
+
+    def getAsInfoByAsn(self, asn):
+        '''
+        A found response to a valid ASN will return an array of hash references. 
+        Each hash reference contains two keys: geo and cidr. Geo is a hash reference 
+        with the country name and country code (the code corresponds to the country 
+        code list for ISO-3166-1 alpha-2). For more information, see ISO 3166-1. CIDR 
+        contains the IP prefix for this ASN.
+        '''
+        endpoint = '/bgp_routes/asn/'
+        r = requests.get(self.base_url + endpoint + str(asn) + '/prefixes_for_asn.json', headers=self.header)
+        if r.status_code == 200:
+            r_json = r.json()
+            return r_json
+        
+        else:
+            return r.text
