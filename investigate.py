@@ -36,3 +36,17 @@ class Investigator():
 
         return r_json
     
+    def getVolume(self, domain):
+        '''
+        This endpoint returns query volume for a domain for the last 30 days. 
+        If there is no information about the domain, the server returns an empty array. 
+        The most recent 1-2 hours may be blank, as the query takes time to generate.
+        '''
+        endpoint = '/domains/volume/'
+        r = requests.get(self.base_url + endpoint + str(domain), headers=self.header)
+        if r.status_code == 200:
+            r_json = r.json()
+            return r_json
+        
+        else:
+            return r.text
