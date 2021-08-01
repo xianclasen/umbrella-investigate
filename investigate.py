@@ -70,3 +70,59 @@ class Investigator():
         
         else:
             return r.text
+
+    def getPdnsByName(self, domain):
+        '''
+        The Passive DNS endpoint provides historical data from our resolvers for 
+        domains, IPs, and other resource records.
+        '''
+        endpoint = '/pdns/name/'
+        r = requests.get(self.base_url + endpoint + str(domain), headers=self.header)
+        if r.status_code == 200:
+            r_json = r.json()
+            return r_json
+        
+        else:
+            return r.text
+
+    def getPdnsByDomain(self, domain):
+        '''
+        Returns the Resource Record (RR) data for DNS responses, 
+        and categorization data, where the answer (or rdata) is the domain(s).
+        '''
+        endpoint = '/pdns/domain/'
+        r = requests.get(self.base_url + endpoint + str(domain), headers=self.header)
+        if r.status_code == 200:
+            r_json = r.json()
+            return r_json
+        
+        else:
+            return r.text
+
+    def getPdnsByIp(self, ip):
+        '''
+        Returns the Resource Record (RR) data for DNS responses, 
+        and categorization data, where the answer (or rdata) is the domain(s).
+        '''
+        endpoint = '/pdns/ip/'
+        r = requests.get(self.base_url + endpoint + str(ip), headers=self.header)
+        if r.status_code == 200:
+            r_json = r.json()
+            return r_json
+        
+        else:
+            return r.text
+
+    def getRawPdns(self, raw):
+        '''
+        Returns the Resource Record (RR) data for DNS responses, 
+        and categorization data, where the answer (or rdata) could be anything.
+        '''
+        endpoint = '/pdns/raw/'
+        r = requests.get(self.base_url + endpoint + str(raw), headers=self.header)
+        if r.status_code == 200:
+            r_json = r.json()
+            return r_json
+        
+        else:
+            return r.text
