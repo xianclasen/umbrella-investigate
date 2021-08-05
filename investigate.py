@@ -14,6 +14,7 @@ if __name__ == '__main__':
     category = inv.getCategory(domain)
     sec_cat_num = category[domain]['security_categories']
     content_cat_num = category[domain]['content_categories']
+    pdns = inv.getPdnsByName(domain)
 
     # CATEGORIES
     print(domain + '\n\n##########\nCategories\n##########\n')
@@ -34,6 +35,16 @@ if __name__ == '__main__':
     print('DGA Score: ' + str(inv.getSecurityInfo(domain)['dga_score']))
     print('Fast Flux: ' + str(inv.getSecurityInfo(domain)['fastflux']))
     print('Threat Type: ' + str(inv.getSecurityInfo(domain)['threat_type']))
+
+    # PDNS
+    print('\n##########\nPDNS\n##########\n')
+    ip_count = len(pdns['records'])
+    print(str(ip_count) + ' IPs found.\n')
+    for i in pdns['records']:
+        type = str(i['type'])
+        rr = str(i['rr'])
+        last_seen = str(i['lastSeenISO'])
+        print(rr + ' (' + type + ') : Last Seen on ' + last_seen)
     
     # SAMPLES
     samples = inv.getSamples(domain)
